@@ -1,0 +1,22 @@
+{
+  "name": "writer",
+  "version": "0.0.1",
+  "description": "A writing application",
+  "main": "main.js",
+  "dependencies": {
+    "electron-build-env": "^0.2.0",
+    "lorem-ipsum": "^2.0.3",
+    "neon-cli": "^0.4.0"
+  },
+  "devDependencies": {
+    "electron": "^8.3.0",
+    "mousetrap": "^1.6.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "electron-build-env neon build writer --release"
+  },
+  "author": "Valdemar H. Lorenzen",
+  "license": "MIT"
+}

@@ -1,0 +1,45 @@
+html, body {
+	background-color: #0f0f0f;
+	color: #afafaf;
+	margin: 0;
+	padding: 0;
+}
+
+.page {
+	/*color: black;*/
+	/*background-color: white;*/
+	text-align: justify;
+	font-size: 18px;
+	line-height: 150%;
+
+	width: 826.7px;
+	height: 1169.3px;
+	margin: auto;
+	margin-bottom: 5px;
+}
+
+.page:first-of-type {
+	margin-top: 5em;
+}
+
+.page .margins {
+	margin: 5em;
+}
+
+.page .margins p {
+	/*background-color: yellow;*/
+
+	font-family: Times New Roman;
+
+	padding: 1px;
+	text-indent: 2em;
+}
+
+.page .margins p:first-of-type {
+	text-indent: 0;
+}
+
+[contenteditable] {
+  outline: 0px solid transparent;
+}
+
