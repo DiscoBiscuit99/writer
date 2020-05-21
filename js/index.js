@@ -30,19 +30,3 @@ function lorem(sentences) {
 	return paragraph;
 } 
 
-const { dialog, app } = require("electron").remote;
-const Mousetrap = require("mousetrap");
-
-//let options = {
-	//defaultPath: "~/Desktop/savefile.wrt",
-//}
-
-Mousetrap.bind(["ctrl+k", "command+k"], () => {
-	const savePath = dialog.showSaveDialog(null);
-	console.log(savePath);
-	
-	//dialog.showSaveDialog(null, options, (path) => {
-		//console.log(path);
-	//});
-});
-
