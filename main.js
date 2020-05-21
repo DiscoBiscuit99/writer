@@ -37,8 +37,7 @@ function createWindow() {
 				type: "separator"
 			},
 			{
-				label: "Exit",
-				click: _ => { quit(); },
+				role: "quit",
 				accelerator: "CmdOrCtrl+Q"
 			}]
 		},
@@ -72,6 +71,24 @@ app.on('activate', () => {
 	}
 });
 
+app.on('before-quit', () => {
+	win.close();
+	
+	const fs = require("fs");
+
+	try {
+		if (fs.existsSync("html/_index.html")) {
+			//file exists
+			fs.unlink("html/_index.html", (err) => {
+				if (err) throw err;
+				console.log("Removed _index.html");
+			});
+		}
+	} catch(err) {
+		throw err;
+	}
+});
+
 function openFile() {
 	let options = {
 		title: "Open a file",
@@ -84,20 +101,24 @@ function openFile() {
 
 	const fs = require("fs");
 	dialog.showOpenDialog(win, options).then(result => {
-		let filename = result.filePaths[0];
-		console.log(filename);
+		let filepath = result.filePaths[0];
+		console.log(filepath);
 
-		fs.copyFile(filename, "html/_index.html", (err) => {
-			if (err) throw err;
-			console.log("File was copied to destination");
-		});
-
-		let source = fs.readFileSync("html/_index.html", "utf-8");
-
+		let source = fs.readFileSync(filepath, "utf-8");
 		console.log(source);
 
-		source.replace("./draft_files/index.css", "../css/index.css");
-		source.replace("./draft_files/index.js", "../js/index.js");
+		let _ = filepath.split("\\");
+		let filename = _[_.length-1].split(".")[0];
+
+		console.log("Filename:", filename);
+
+		source = source.replace("./" + filename + "_files/index.css", "../css/index.css")
+					.replace(' src="./' + filename + '_files/index.js"', "");
+
+		fs.writeFile("html/_index.html", source, { encoding: "utf8", flag: "w" }, (err) => {
+			if (err) throw err;
+			console.log("_index.html fixed");
+		});
 
 		win.loadFile("html/_index.html");
 	});
@@ -113,10 +134,10 @@ function saveFile() {
 	};
 
 	dialog.showSaveDialog(win, options).then(result => {
-		let filename = result.filePath;
-		console.log(filename);
+		let filpath = result.filePath;
+		console.log(filepath);
 
-		win.webContents.savePage(filename, "HTMLComplete").then(() => {
+		win.webContents.savePage(filepath, "HTMLComplete").then(() => {
 			console.log("File saved");
 		}).catch(err => {
 			console.log(err);
@@ -135,13 +156,13 @@ function exportToPDF() {
 	};
 
 	dialog.showSaveDialog(win, options).then(result => {
-		let filename = result.filePath;
+		let filepath = result.filePath;
 
 		const fs = require("fs");
 		win.webContents.printToPDF({}).then(data => {
-			fs.writeFile("filename", data, (err) => {
+			fs.writeFile(filepath, data, (err) => {
 				if (err) throw err;
-				console.log("PDF exported to", filename);
+				console.log("PDF exported to", filepath);
 			});
 		});
 	});
@@ -157,18 +178,5 @@ function spawnAboutWindow() {
 	});
 
 	aboutWin.loadFile("html/about.html");
-}
-
-function quit() {
-	// TODO: Hide the window, save _index.html to index.html, then quit.
-	win.hide();
-	
-	const fs = require("fs");
-	fs.copyFile("html/_index.html", "html/index.html", (err) => {
-		if (err) throw err;
-		console.log("File was copied to destination");
-	});
-
-	app.quit();
 }
 

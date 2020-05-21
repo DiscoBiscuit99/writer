@@ -11,7 +11,8 @@ margins.className = "margins";
 
 let paragraph = document.createElement("p");
 
-paragraph.innerHTML = lorem(5);
+// For testing paragraph styling
+//paragraph.innerHTML = lorem(5);
 
 margins.appendChild(paragraph);
 page.appendChild(margins);
