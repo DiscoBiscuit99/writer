@@ -33,19 +33,52 @@ function createWindow() {
 				click: _ => { exportToPDF(); },
 				accelerator: "CmdOrCtrl+P"
 			},
-			{
-				type: "separator"
-			},
+			{ type: "separator" },
 			{
 				role: "quit",
 				accelerator: "CmdOrCtrl+Q"
 			}]
 		},
 		{
-			label: "View",
+			label: "Edit",
 			submenu: [{
-				role: "toggledevtools"
-			}]
+				label: "H1 title",
+				click: _ => { h1Title(); },
+				accelerator: "CmdOrCtrl+1"
+			},
+			{
+				label: "H2 title",
+				click: _ => { h2Title(); },
+				accelerator: "CmdOrCtrl+2"
+			},
+			{
+				label: "H3 title",
+				click: _ => { h3Title(); },
+				accelerator: "CmdOrCtrl+3"
+			},
+			{ type: "separator" },
+			{
+				label: "Italisize",
+				accelerator: "CmdOrCtrl+I"
+			},
+			{
+				label: "Bold",
+				accelerator: "CmdOrCtrl+B"
+			},
+			{ type: "separator" },
+			{ role: "cut" },
+			{ role: "copy" },
+			{ role: "paste" },
+			{ type: "separator" },
+			{ role: "undo" },
+			{ role: "redo" }
+			]
+		},
+		{
+			label: "View",
+			submenu: [
+				{ role: "toggledevtools" }
+			]
 		},
 		{
 			label: "About",
@@ -88,6 +121,8 @@ app.on('before-quit', () => {
 		throw err;
 	}
 });
+
+///////////////////////////////////////
 
 function openFile() {
 	let options = {
