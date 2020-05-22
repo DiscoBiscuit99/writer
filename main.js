@@ -1,6 +1,7 @@
 const { BrowserWindow, Menu, app, dialog } = require("electron");
 
 let win;
+let menubarVisible = true;
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -11,72 +12,79 @@ function createWindow() {
 		}
 	});
 
-	//win.setMenuBarVisibility(false);
+	win.setMenuBarVisibility(menubarVisible);
 
 	win.loadFile("html/index.html");
 
 	const template = [
 		{
 			label: "File",
-			submenu: [{
-				label: "Open file",
-				click: _ => { openFile(); },
-				accelerator: "CmdOrCtrl+O"
-			},
-			{
-				label: "Save file",
-				click: _ => { saveFile(); },
-				accelerator: "CmdOrCtrl+S"
-			},
-			{
-				label: "Export to PDF",
-				click: _ => { exportToPDF(); },
-				accelerator: "CmdOrCtrl+P"
-			},
-			{ type: "separator" },
-			{
-				role: "quit",
-				accelerator: "CmdOrCtrl+Q"
-			}]
+			submenu: [
+				{
+					label: "Open file",
+					click: _ => { openFile(); },
+					accelerator: "CmdOrCtrl+O"
+				},
+				{
+					label: "Save file",
+					click: _ => { saveFile(); },
+					accelerator: "CmdOrCtrl+S"
+				},
+				{
+					label: "Export to PDF",
+					click: _ => { exportToPDF(); },
+					accelerator: "CmdOrCtrl+P"
+				},
+				{ type: "separator" },
+				{
+					role: "quit",
+					accelerator: "CmdOrCtrl+Q"
+				}
+			]
 		},
 		{
 			label: "Edit",
 			submenu: [{
-				label: "H1 title",
-				click: _ => { h1Title(); },
-				accelerator: "CmdOrCtrl+1"
-			},
-			{
-				label: "H2 title",
-				click: _ => { h2Title(); },
-				accelerator: "CmdOrCtrl+2"
-			},
-			{
-				label: "H3 title",
-				click: _ => { h3Title(); },
-				accelerator: "CmdOrCtrl+3"
-			},
-			{ type: "separator" },
-			{
-				label: "Italisize",
-				accelerator: "CmdOrCtrl+I"
-			},
-			{
-				label: "Bold",
-				accelerator: "CmdOrCtrl+B"
-			},
-			{ type: "separator" },
-			{ role: "cut" },
-			{ role: "copy" },
-			{ role: "paste" },
-			{ type: "separator" },
-			{ role: "undo" },
-			{ role: "redo" }
+					label: "H1 title",
+					click: _ => { h1Title(); },
+					accelerator: "CmdOrCtrl+1"
+				},
+				{
+					label: "H2 title",
+					click: _ => { h2Title(); },
+					accelerator: "CmdOrCtrl+2"
+				},
+				{
+					label: "H3 title",
+					click: _ => { h3Title(); },
+					accelerator: "CmdOrCtrl+3"
+				},
+				{ type: "separator" },
+				{
+					label: "Italisize",
+					accelerator: "CmdOrCtrl+I"
+				},
+				{
+					label: "Bold",
+					accelerator: "CmdOrCtrl+B"
+				},
+				{ type: "separator" },
+				{ role: "cut" },
+				{ role: "copy" },
+				{ role: "paste" },
+				{ type: "separator" },
+				{ role: "undo" },
+				{ role: "redo" }
 			]
 		},
 		{
 			label: "View",
 			submenu: [
+				{ 
+					label: "Toggle menubar",
+					click: _ => { toggleMenubar(); },
+					accelerator: "CmdOrCtrl+M"
+				},
 				{ role: "toggledevtools" }
 			]
 		},
@@ -213,5 +221,10 @@ function spawnAboutWindow() {
 	});
 
 	aboutWin.loadFile("html/about.html");
+}
+
+function toggleMenubar() {
+	menubarVisible = !menubarVisible;
+	win.setMenuBarVisibility(menubarVisible);
 }
 
