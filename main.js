@@ -68,6 +68,10 @@ function createWindow() {
 					label: "Bold",
 					accelerator: "CmdOrCtrl+B"
 				},
+				{
+					label: "Underline",
+					accelerator: "CmdOrCtrl+U"
+				},
 				{ type: "separator" },
 				{ role: "cut" },
 				{ role: "copy" },
